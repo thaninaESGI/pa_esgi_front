@@ -43,7 +43,7 @@ def load_service_account_key():
             json.dump(key_data, key_file)
         logging.debug("Key file written successfully.")
     except IOError as e:
-        logging.error(f"Failed to write key file: {e}")
+        logging.error(f"Failed   to write key file: {e}")
         st.stop()
 
     # Mettre à jour la variable d'environnement
