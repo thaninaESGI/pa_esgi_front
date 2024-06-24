@@ -1,0 +1,15 @@
+streamlit
+python-dotenv
+openai
+google-cloud-storage
+langchain
+langchain-openai
+langchain-community
+pypdf
+chromadb
+flask
+google-cloud-secret-manager==2.7.0
+gunicorn
+requests
+
+
