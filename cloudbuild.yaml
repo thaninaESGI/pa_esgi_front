@@ -21,6 +21,3 @@ steps:
 
 # Paramètres généraux du Cloud Build
 timeout: '1600s'
-
-- S4 - orchestration machine learning
-- De 24/06/2024 09H45 à 24/06/2024 11H15
