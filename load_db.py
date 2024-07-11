@@ -8,7 +8,7 @@ from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter, MarkdownHeaderTextSplitter
 
 class DataLoader():
-    """Create, load, save the DB using the PDF Loader"""
+    """Create,  load, save the DB using the PDF Loader"""
     def __init__(
         self,
         directories=['bac1_2', 'bac3_5', 'ingestion_bucket_1'],
