@@ -72,7 +72,7 @@ def call_cloud_run_job(question):
         response = requests.post(CLOUD_RUN_JOB_URL, json={"question": question}, headers=headers)
         response.raise_for_status()  # Raise an HTTPError if the HTTP request returned an unsuccessful status code
         result = response.json()
-        st.write(f"Réponse reçue du service Cloud Run : {result}")  # Journal de débogage
+        st.write(f"Réponse   reçue du service Cloud Run : {result}")  # Journal de débogage
         return result.get("result", "No result found"), result.get("sources", "No sources found")
     except requests.exceptions.HTTPError as http_err:
         st.write(f"Erreur HTTP : {http_err}")  # Journal de débogage
