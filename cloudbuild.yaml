@@ -12,7 +12,7 @@ steps:
     args:
       - 'run'
       - 'deploy'
-      - 'your-streamlit-app'
+      - 'your-streamlit-app-beta'
       - '--image=gcr.io/$PROJECT_ID/helpdesk-streamlit'
       - '--platform=managed'
       - '--region=europe-west9'
