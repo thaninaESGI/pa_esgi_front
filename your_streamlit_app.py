@@ -56,7 +56,7 @@ credentials_path = load_service_account_key()
 
 # URL du job Cloud Run 
 
-CLOUD_RUN_JOB_URL = "https://help-desk-service-lxazwit43a-od.a.run.app"
+CLOUD_RUN_JOB_URL = "https://help-desk-service-beta-lxazwit43a-od.a.run.app"
 
 # Vérifier que l'URL est correctement chargée
 if not CLOUD_RUN_JOB_URL:
