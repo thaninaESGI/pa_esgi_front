@@ -18,4 +18,3 @@ EXPOSE 8080
 
 # Définir la commande pour exécuter Streamlit
 CMD ["streamlit", "run", "your_streamlit_app.py", "--server.port=8080", "--server.address=0.0.0.0"]
-

@@ -43,19 +43,20 @@ def load_service_account_key():
             json.dump(key_data, key_file)
         logging.debug("Key file written successfully.")
     except IOError as e:
-        logging.error(f"Failed   to write key file: {e}")
+        logging.error(f"Failed to write key file: {e}")
         st.stop()
 
     # Mettre à jour la variable d'environnement
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credentials_path
+    os.environ['SERVICE_ACCOUNT_KEY_JSON'] = credentials_path
     logging.debug("Environment variable set successfully.")
     return credentials_path
 
 # Charger la clé du compte de service
 credentials_path = load_service_account_key()
 
-# URL du job Cloud Run
-CLOUD_RUN_JOB_URL = "https://helpdesk-service-lxazwit43a-od.a.run.app/query"
+# URL du job Cloud Run 
+
+CLOUD_RUN_JOB_URL = "https://help-desk-service-lxazwit43a-od.a.run.app"
 
 # Vérifier que l'URL est correctement chargée
 if not CLOUD_RUN_JOB_URL:
@@ -65,14 +66,15 @@ if not CLOUD_RUN_JOB_URL:
 # Fonction pour appeler le job Cloud Run
 def call_cloud_run_job(question):
     try:
-        st.write(f"Envoi de la question au service Cloud Run : {question}")  # Journal de débogage
+        #st.write(f"Envoi de la question à Iges : {question}")  # Journal de débogage
         headers = {
-            "Authorization": f"Bearer {os.environ['GOOGLE_APPLICATION_CREDENTIALS']}"
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {os.environ['SERVICE_ACCOUNT_KEY_JSON']}"
         }
         response = requests.post(CLOUD_RUN_JOB_URL, json={"question": question}, headers=headers)
         response.raise_for_status()  # Raise an HTTPError if the HTTP request returned an unsuccessful status code
         result = response.json()
-        st.write(f"Réponse   reçue du service Cloud Run : {result}")  # Journal de débogage
+        #st.write(f"Réponse reçue du service Cloud Run : {result}")  # Journal de débogage
         return result.get("result", "No result found"), result.get("sources", "No sources found")
     except requests.exceptions.HTTPError as http_err:
         st.write(f"Erreur HTTP : {http_err}")  # Journal de débogage
@@ -82,9 +84,9 @@ def call_cloud_run_job(question):
         return f"Erreur de connexion : {conn_err}", ""
     except requests.exceptions.Timeout as timeout_err:
         st.write(f"Erreur de délai d'attente : {timeout_err}")  # Journal de débogage
-        return f"Erreur de délai d'attente : {timeout_err}", ""
+        return f"Erreur de délai d'attente .... : {timeout_err}", ""
     except requests.exceptions.RequestException as req_err:
-        st.write(f"Erreur : {req_err}")  # Journal de débogage
+        st.write(f"Erreur s : {req_err}")  # Journal de débogage
         return f"Erreur : {req_err}", ""
 
 # Initialiser l'historique des messages dans l'état de session
