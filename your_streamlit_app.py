@@ -55,7 +55,6 @@ def load_service_account_key():
 credentials_path = load_service_account_key()
 
 # URL du job Cloud Run 
-
 CLOUD_RUN_JOB_URL = "https://help-desk-service-beta-lxazwit43a-od.a.run.app"
 
 # Vérifier que l'URL est correctement chargée
@@ -66,7 +65,6 @@ if not CLOUD_RUN_JOB_URL:
 # Fonction pour appeler le job Cloud Run
 def call_cloud_run_job(question):
     try:
-        #st.write(f"Envoi de la question à Iges : {question}")  # Journal de débogage
         headers = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {os.environ['SERVICE_ACCOUNT_KEY_JSON']}"
@@ -74,19 +72,22 @@ def call_cloud_run_job(question):
         response = requests.post(CLOUD_RUN_JOB_URL, json={"question": question}, headers=headers)
         response.raise_for_status()  # Raise an HTTPError if the HTTP request returned an unsuccessful status code
         result = response.json()
-        #st.write(f"Réponse reçue du service Cloud Run : {result}")  # Journal de débogage
         return result.get("result", "No result found"), result.get("sources", "No sources found")
     except requests.exceptions.HTTPError as http_err:
         st.write(f"Erreur HTTP : {http_err}")  # Journal de débogage
+        logging.error(f"HTTP error occurred: {http_err}")
         return f"Erreur HTTP : {http_err}", ""
     except requests.exceptions.ConnectionError as conn_err:
         st.write(f"Erreur de connexion : {conn_err}")  # Journal de débogage
+        logging.error(f"Connection error occurred: {conn_err}")
         return f"Erreur de connexion : {conn_err}", ""
     except requests.exceptions.Timeout as timeout_err:
         st.write(f"Erreur de délai d'attente : {timeout_err}")  # Journal de débogage
-        return f"Erreur de délai d'attente .... : {timeout_err}", ""
+        logging.error(f"Timeout error occurred: {timeout_err}")
+        return f"Erreur de délai d'attente : {timeout_err}", ""
     except requests.exceptions.RequestException as req_err:
-        st.write(f"Erreur s : {req_err}")  # Journal de débogage
+        st.write(f"Erreur : {req_err}")  # Journal de débogage
+        logging.error(f"Request exception occurred: {req_err}")
         return f"Erreur : {req_err}", ""
 
 # Initialiser l'historique des messages dans l'état de session
@@ -111,4 +112,5 @@ if prompt := st.chat_input("Comment puis-je vous aider ?"):
 
     # Ajouter la réponse de l'assistant à l'état de session
     st.chat_message("assistant").write(response)
-    st.session_state["messages"].append({"role": "assistant", "content": response})
+    st.session_state["messages"].append({"role": "assistant", "content": response}) 
+
